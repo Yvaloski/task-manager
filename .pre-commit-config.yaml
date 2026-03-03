@@ -32,8 +32,8 @@ repos:
   # =================== JAVASCRIPT ===================
 
   - repo: https://github.com/biomejs/pre-commit
-    rev: v2.4.4  # était v0.1.0
+    rev: v2.4.4
     hooks:
         - id: biome-check
-          files: \.[jt]sx?$
+          files: \.(js|ts|jsx|tsx|css)$
           additional_dependencies: [ "@biomejs/biome@1.9.4" ]
