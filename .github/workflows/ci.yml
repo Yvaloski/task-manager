@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # =================== PYTHON ===================
+  python:
+    name: Python (lint + tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: "backend/requirements.txt"
+
+      - name: Install dependencies
+        working-directory: backend
+        run: pip install -r requirements.txt
+
+      - name: Ruff (lint)
+        uses: astral-sh/ruff-action@v1
+
+      - name: Black (format check)
+        uses: psf/black@stable
+        with:
+          options: "--check"
+
+     # - name: Tests
+     #   working-directory: backend
+      #  run: pytest
+  # =================== JAVASCRIPT ===================
+  frontend:
+    name: JavaScript (lint + format check)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Biome (lint + format check)
+        uses: biomejs/setup-biome@v2
+        with:
+          version: "1.9.4"
+
+      - run: biome ci .
+        working-directory: frontend

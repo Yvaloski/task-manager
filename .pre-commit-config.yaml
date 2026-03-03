@@ -1,0 +1,39 @@
+repos:
+  # --- Hooks généraux ---
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: debug-statements        # détecte les breakpoint() / pdb oubliés
+
+  # =================== PYTHON ===================
+
+  # --- Formatter ---
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        files: \.py$
+
+  # --- Linter ---
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+        files: \.py$
+
+  # =================== JAVASCRIPT ===================
+
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v2.4.4  # était v0.1.0
+    hooks:
+        - id: biome-check
+          files: \.[jt]sx?$
+          additional_dependencies: [ "@biomejs/biome@1.9.4" ]
