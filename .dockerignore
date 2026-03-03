@@ -1,0 +1,21 @@
+# Environnement
+.env
+.env.*
+*.key
+*.pem
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Dev
+.git/
+.github/
+.idea/
+*.md
+
+# Config locale
+.pre-commit-config.yaml
+sonar-project.properties
