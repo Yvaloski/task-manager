@@ -1,11 +1,10 @@
-FROM node:18-alpine
+FROM alpine:3.18
 
-WORKDIR /app
+# Install lightweight web server
+RUN apk add --no-cache nginx
 
-COPY package.json package-lock.json ./
-RUN npm ci
+# Copy frontend static files directly
+COPY frontend /var/www/html
 
-COPY . .
-
-# Run frontend tests during CI build
-RUN npm test
+# Start nginx in foreground
+CMD ["nginx", "-g", "daemon off;"]
