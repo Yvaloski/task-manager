@@ -4,7 +4,7 @@ WORKDIR /app
 COPY backend/ /app/backend/
 COPY frontend /app/frontend/
 
-RUN pip install -r requirements.txt
+RUN pip install -r ../requirements.txt
 
 # Run quality checks and tests
 RUN pytest -v --color=always --cov=app --cov-report=term-missing backend/app/tests
