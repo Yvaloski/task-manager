@@ -16,11 +16,11 @@ jobs:
 
       - name: Build backend Docker image
         run: |
-          docker build -t backend-app -f Dockerfile backend/
+          docker build -t backend-app -f backend/Dockerfile backend/
 
       - name: Build frontend Docker image
         run: |
-          docker build -t frontend-app -f Dockerfile frontend/
+          docker build -t frontend-app -f frontend/Dockerfile frontend/
 
       - name: Scan backend image with Trivy
         uses: aquasecurity/trivy-action@0.33.1
