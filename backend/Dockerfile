@@ -2,7 +2,7 @@ FROM python:3.12
 
 WORKDIR /app
 COPY backend/ /app/backend/
-COPY frontend/ /app/frontend/
+COPY ../frontend/ /app/frontend/
 
 RUN pip install -r requirements.txt
 
