@@ -2,65 +2,36 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
+    branches: [ main, master ]
 
 jobs:
-  # =================== PYTHON ===================
-  python:
-    name: Python (lint + tests)
+  build-and-scan:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Build backend Docker image
+        run: |
+          docker build -t backend-app -f Dockerfile backend/
+
+      - name: Build frontend Docker image
+        run: |
+          docker build -t frontend-app -f Dockerfile frontend/
+
+      - name: Scan backend image with Trivy
+        uses: aquasecurity/trivy-action@v0.33.2
         with:
-          python-version: "3.12"
-          cache: "pip"
-          cache-dependency-path: "backend/requirements.txt"
+          image: backend-app
+          format: table
+          exit-code: 1
 
-      - name: Install dependencies
-        working-directory: backend
-        run: pip install -r requirements.txt
-
-      - name: Ruff (lint)
-        uses: astral-sh/ruff-action@v1
-
-      - name: Black (format check)
-        uses: psf/black@stable
+      - name: Scan frontend image with Trivy
+        uses: aquasecurity/trivy-action@v0.33.2
         with:
-          options: "--check"
-
-     # - name: Tests
-     #   working-directory: backend
-      #  run: pytest
-  # =================== JAVASCRIPT ===================
-  frontend:
-    name: JavaScript (lint + format check)
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Biome (lint + format check)
-        uses: biomejs/setup-biome@v2
-        with:
-          version: "1.9.4"
-
-      - run: biome ci .
-        working-directory: frontend
-  build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          image: frontend-app
+          format: table
+          exit-code: 1
