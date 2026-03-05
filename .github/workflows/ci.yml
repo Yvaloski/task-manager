@@ -33,6 +33,10 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--check"
+
+      - name: Tests
+        working-directory: backend
+        run: pytest
   # =================== JAVASCRIPT ===================
   frontend:
     name: JavaScript (lint + format check)
@@ -48,6 +52,53 @@ jobs:
 
       - run: biome ci .
         working-directory: frontend
+  # =================== DOCKER SCAN ===================
+  docker-scan:
+    name: Docker Image Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend Docker image
+        run: docker build -t backend:latest -f backend/Dockerfile backend/
+
+      - name: Build frontend Docker image
+        run: docker build -t frontend:latest -f frontend/Dockerfile frontend/
+
+      - name: Start backend container
+        run: docker run -d -p 8000:8000 --name backend backend:latest
+      - name: Wait for backend to start
+        run: sleep 10
+      - name: Check backend health endpoint
+        run: curl -f http://localhost:8000/health || exit 1
+      - name: Start frontend container
+        run: docker run -d -p 80:80 --name frontend frontend:latest
+      - name: Wait for frontend to start
+        run: sleep 10
+      - name: Check frontend homepage
+        run: curl -f http://localhost:80 || exit 1
+      - name: Stop backend container
+        run: docker stop backend
+      - name: Stop frontend container
+        run: docker stop frontend
+
+      - name: Scan backend image with Trivy
+        uses: aquasecurity/trivy-action@latest
+        with:
+          image: backend:latest
+          format: json
+          output: backend_scan.json
+          fail-on-severity: high
+
+      - name: Scan frontend image with Trivy
+        uses: aquasecurity/trivy-action@latest
+        with:
+          image: frontend:latest
+          format: json
+          output: frontend_scan.json
+          fail-on-severity: high
+  # =================== BUILD ===================
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
