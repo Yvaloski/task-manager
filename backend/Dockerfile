@@ -8,7 +8,7 @@ ENV HTTPS_PROXY="${HTTPS_PROXY}"
 
 WORKDIR /app
 
-COPY backend/ .
+COPY . /app
 
 RUN pip install -r requirements.txt
 

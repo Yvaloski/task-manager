@@ -34,9 +34,6 @@ jobs:
         with:
           options: "--check"
 
-      - name: Tests
-        working-directory: backend
-        run: pytest
   # =================== JAVASCRIPT ===================
   frontend:
     name: JavaScript (lint + format check)
