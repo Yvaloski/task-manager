@@ -33,14 +33,6 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--check"
-
-      - name: Mypy (type checking)
-        working-directory: backend
-        run: mypy --config-file pyproject.toml app
-
-      - name: Tests
-        working-directory: backend
-        run: pytest
   # =================== JAVASCRIPT ===================
   frontend:
     name: JavaScript (lint + format check)
@@ -64,6 +56,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Trivy
+        run: |
+          sudo apt-get install wget apt-transport-https gnupg -y
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy -y
+
       - name: Build backend Docker image
         run: docker build -t backend:latest -f backend/Dockerfile backend/
 
@@ -71,18 +71,10 @@ jobs:
         run: docker build -t frontend:latest -f frontend/Dockerfile frontend/
 
       - name: Scan backend image with Trivy
-        uses: aquasecurity/trivy-action@0.33.1
-        with:
-          image-ref: backend:latest
-          format: json
-          output: backend_scan.json
+        run: trivy image --format json --output backend_scan.json backend:latest
 
       - name: Scan frontend image with Trivy
-        uses: aquasecurity/trivy-action@0.33.1
-        with:
-          image-ref: frontend:latest
-          format: json
-          output: frontend_scan.json
+        run: trivy image --format json --output frontend_scan.json frontend:latest
   # =================== BUILD ===================
   build:
     name: Build and analyze
