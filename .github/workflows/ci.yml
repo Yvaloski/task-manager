@@ -84,20 +84,18 @@ jobs:
         run: docker stop frontend
 
       - name: Scan backend image with Trivy
-        uses: aquasecurity/trivy-action@latest
+        uses: aquasecurity/trivy-action@0.33.1
         with:
-          image: backend:latest
+          image-ref: backend:latest
           format: json
           output: backend_scan.json
-          fail-on-severity: high
 
       - name: Scan frontend image with Trivy
-        uses: aquasecurity/trivy-action@latest
+        uses: aquasecurity/trivy-action@0.33.1
         with:
-          image: frontend:latest
+          image-ref: frontend:latest
           format: json
           output: frontend_scan.json
-          fail-on-severity: high
   # =================== BUILD ===================
   build:
     name: Build and analyze
