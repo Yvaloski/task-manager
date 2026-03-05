@@ -75,6 +75,21 @@ jobs:
 
       - name: Scan frontend image with Trivy
         run: trivy image --format json --output frontend_scan.json frontend:latest
+
+      - name: Scan images with Trivy
+        if: always()
+        run: |
+          echo "## 🔍 Trivy Security Scan" >> $GITHUB_STEP_SUMMARY
+
+          echo "### 🐳 Backend" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          trivy image --format table backend:latest >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "### 🐳 Frontend" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          trivy image --format table frontend:latest >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
   # =================== BUILD ===================
   build:
     name: Build and analyze
