@@ -1,0 +1,16 @@
+{
+  "name": "task-manager-e2e",
+  "version": "1.0.0",
+  "description": "Playwright End-to-End Test Suite for Task Manager",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

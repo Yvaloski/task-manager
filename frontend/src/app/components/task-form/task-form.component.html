@@ -1,0 +1,69 @@
+<!-- Overlay -->
+<div class="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg z-50">
+    <div class="p-6 border-b border-slate-100">
+      <h2 class="text-xl font-bold text-slate-800">
+        {{ task ? '✏️ Modifier la tâche' : '➕ Nouvelle tâche' }}
+      </h2>
+    </div>
+    <div class="p-6 space-y-4">
+      <!-- Titre -->
+      <div>
+        <label class="text-sm font-semibold text-slate-600 block mb-1">Titre *</label>
+        <input [(ngModel)]="form.title" type="text" placeholder="Titre de la tâche"
+               class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none" />
+      </div>
+      <!-- Description -->
+      <div>
+        <label class="text-sm font-semibold text-slate-600 block mb-1">Description</label>
+        <textarea [(ngModel)]="form.description" rows="3" placeholder="Description optionnelle..."
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none resize-none"></textarea>
+      </div>
+      <!-- Catégorie + Priorité -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm font-semibold text-slate-600 block mb-1">Catégorie *</label>
+          <select (change)="onCategoryChange($any($event.target).value)"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none">
+            <option *ngFor="let c of categories" [value]="c.id" [selected]="form.category?.id === c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-slate-600 block mb-1">Priorité</label>
+          <select [(ngModel)]="form.priority"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none">
+            <option *ngFor="let p of priorities" [value]="p">{{ p }}</option>
+          </select>
+        </div>
+      </div>
+      <!-- Statut + Date échéance -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm font-semibold text-slate-600 block mb-1">Statut</label>
+          <select [(ngModel)]="form.status"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-slate-600 block mb-1">Date d'échéance</label>
+          <input [(ngModel)]="form.dueDate" type="date"
+                 class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 outline-none" />
+        </div>
+      </div>
+    </div>
+    <!-- Actions -->
+    <div class="p-6 border-t border-slate-100 flex justify-end gap-3">
+      <button (click)="cancel()"
+              class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm hover:bg-slate-50 transition font-medium">
+        Annuler
+      </button>
+      <button (click)="save()" [disabled]="isSaving"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition font-medium disabled:opacity-60">
+        {{ isSaving ? 'Enregistrement...' : (task ? 'Mettre à jour' : 'Créer') }}
+      </button>
+    </div>
+  </div>
+</div>

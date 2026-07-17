@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.angular/
+*.log
+target/
+.agents/
+e2e/node_modules/
