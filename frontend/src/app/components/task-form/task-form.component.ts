@@ -20,8 +20,8 @@ export class TaskFormComponent implements OnInit {
   form: Partial<Task> = {};
   isSaving = false;
 
-  readonly statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE'];
-  readonly priorities: TaskPriority[] = ['LOW', 'MEDIUM', 'HIGH'];
+  readonly statuses: TaskStatus[] = ['A_FAIRE', 'EN_COURS', 'TERMINE'];
+  readonly priorities: TaskPriority[] = ['BASSE', 'MOYENNE', 'HAUTE'];
 
   constructor(
     private taskService: TaskService,
@@ -44,8 +44,8 @@ export class TaskFormComponent implements OnInit {
         description: '',
         creationDate: new Date().toISOString().split('T')[0],
         dueDate: null,
-        status: 'TODO',
-        priority: 'MEDIUM',
+        status: 'A_FAIRE',
+        priority: 'MOYENNE',
         category: this.categories[0],
       };
     }

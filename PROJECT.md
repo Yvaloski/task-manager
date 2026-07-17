@@ -30,8 +30,8 @@ task-manager/
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
 | 1 | E2E Testing Track | Design and build E2E test suite (Tiers 1-4) | None | IN_PROGRESS |
-| 2 | Backend API | REST API entities, CRUD endpoints, database prepopulation, CORS configuration, and unit tests | None | IN_PROGRESS |
-| 3 | Frontend Client | Angular app structure, Tailwind configuration, services, components, priority indicators, forms, and unit tests | None | PLANNED |
+| 2 | Backend API | REST API entities, CRUD endpoints, database prepopulation, CORS configuration, and unit tests | None | DONE |
+| 3 | Frontend Client | Angular app structure, Tailwind configuration, services, components, priority indicators, forms, and unit tests | None | IN_PROGRESS |
 | 4 | Final E2E Integration | E2E test verification, bug fixing, and white-box adversarial hardening (Tier 5) | M1, M2, M3 | PLANNED |
 
 ## Interface Contracts

@@ -21,8 +21,8 @@ export class TaskListComponent implements OnInit {
   selectedTask: Task | null = null;
   isLoading = false;
 
-  readonly statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE'];
-  readonly priorities: TaskPriority[] = ['LOW', 'MEDIUM', 'HIGH'];
+  readonly statuses: TaskStatus[] = ['A_FAIRE', 'EN_COURS', 'TERMINE'];
+  readonly priorities: TaskPriority[] = ['BASSE', 'MOYENNE', 'HAUTE'];
 
   constructor(
     private taskService: TaskService,
@@ -81,22 +81,22 @@ export class TaskListComponent implements OnInit {
 
   priorityClass(priority: TaskPriority): string {
     return {
-      HIGH: 'bg-red-100 text-red-700',
-      MEDIUM: 'bg-yellow-100 text-yellow-700',
-      LOW: 'bg-blue-100 text-blue-700',
+      HAUTE: 'bg-red-100 text-red-700',
+      MOYENNE: 'bg-yellow-100 text-yellow-700',
+      BASSE: 'bg-blue-100 text-blue-700',
     }[priority];
   }
 
   statusClass(status: TaskStatus): string {
     return {
-      TODO: 'bg-gray-100 text-gray-600',
-      IN_PROGRESS: 'bg-indigo-100 text-indigo-700',
-      DONE: 'bg-green-100 text-green-700',
+      A_FAIRE: 'bg-gray-100 text-gray-600',
+      EN_COURS: 'bg-indigo-100 text-indigo-700',
+      TERMINE: 'bg-green-100 text-green-700',
     }[status];
   }
 
   isOverdue(task: Task): boolean {
-    if (!task.dueDate || task.status === 'DONE') return false;
+    if (!task.dueDate || task.status === 'TERMINE') return false;
     return new Date(task.dueDate) < new Date();
   }
 

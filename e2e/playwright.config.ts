@@ -2,10 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:4200',
@@ -35,12 +35,13 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },
-    {
-      command: 'npm start',
-      cwd: '../frontend',
-      url: 'http://localhost:4200',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120000,
-    }
+    // The frontend folder is not yet created, so frontend WebServer block is disabled for now.
+    // {
+    //   command: 'npm start',
+    //   cwd: '../frontend',
+    //   url: 'http://localhost:4200',
+    //   reuseExistingServer: !process.env.CI,
+    //   timeout: 120000,
+    // }
   ],
 });

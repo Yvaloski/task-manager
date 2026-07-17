@@ -61,7 +61,7 @@ test.describe('Tier 2: Boundary & Corner Cases', () => {
     // 2. Submit.
     await page.getByRole('button', { name: 'Submit' }).click();
     // 3. Assert toast error or inline warning `"Category name already exists"`.
-    await expect(page.locator('.toast-error, .error-msg, [role="alert"]')).toContainText(['already exists', 'déjà', 'Work']);
+    await expect(page.locator('.toast-error, .error-msg, [role="alert"]')).toContainText(/already exists|déjà|déjà existe/i);
   });
 
   test('T2_CAT_CREATE_05: Category Description Length Boundary (255 characters)', async ({ page }) => {
@@ -92,7 +92,7 @@ test.describe('Tier 2: Boundary & Corner Cases', () => {
     // 3. Click `"Delete"`.
     await row.locator('.btn-delete, button:has-text("Delete")').click();
     // 4. Assert that UI displays block dialog or error toast `"Cannot delete category with associated tasks"`.
-    await expect(page.locator('.toast-error, .error-msg, [role="alert"]')).toContainText(['Cannot delete category', 'associated tasks', 'associées', 'impossible']);
+    await expect(page.locator('.toast-error, .error-msg, [role="alert"]')).toContainText(/Cannot delete category|associated tasks|associées|impossible/i);
   });
 
   test('T2_CAT_DELETE_02: Delete Last Remaining Category', async ({ page }) => {

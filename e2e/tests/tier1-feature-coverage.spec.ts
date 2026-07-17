@@ -99,13 +99,13 @@ test.describe('Tier 1: Feature Coverage', () => {
   test('T1_CAT_DELETE_02: Delete Prepopulated Category', async ({ page }) => {
     // 1. Navigate to `/categories`.
     await page.goto('/categories');
-    // 2. Find a prepopulated category (e.g. `"Education"` if unused).
-    const row = page.locator('tr, .category-item').filter({ hasText: 'Education' });
+    // 2. Find a prepopulated category (e.g. `"Study"` if unused).
+    const row = page.locator('tr, .category-item').filter({ hasText: 'Study' });
     // 3. Click "Delete", then "Confirm".
     await row.locator('.btn-delete, button:has-text("Delete")').click();
     await page.getByRole('button', { name: 'Confirm' }).click();
     // 4. Verify category is removed.
-    await expect(page.locator('table, .category-list')).not.toContainText('Education');
+    await expect(page.locator('table, .category-list')).not.toContainText('Study');
   });
 
   test('T1_CAT_DELETE_03: Initial Prepopulated List Verification', async ({ page }) => {

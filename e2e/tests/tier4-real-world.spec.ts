@@ -66,19 +66,19 @@ test.describe('Tier 4: Real-World Application Scenarios', () => {
     // 4. Navigate to /categories.
     await page.goto('/categories');
 
-    // 5. Delete the "Education" category (assuming no active tasks remain under it).
-    const row = page.locator('tr, .category-item').filter({ hasText: 'Education' });
+    // 5. Delete the "Study" category (assuming no active tasks remain under it).
+    const row = page.locator('tr, .category-item').filter({ hasText: 'Study' });
     await row.locator('.btn-delete, button:has-text("Delete")').click();
     await page.getByRole('button', { name: 'Confirm' }).click();
 
     // 6. Verify category is removed from categories list.
-    await expect(page.locator('table, .category-list')).not.toContainText('Education');
+    await expect(page.locator('table, .category-list')).not.toContainText('Study');
 
-    // 7. Open dashboard, click "Add Task", verify "Education" is no longer in the category dropdown.
+    // 7. Open dashboard, click "Add Task", verify "Study" is no longer in the category dropdown.
     await page.goto('/');
     await page.getByRole('button', { name: 'Add Task' }).click();
     const dropdown = page.locator('select[name="categoryId"]');
-    await expect(dropdown.locator('option')).not.toContainText(['Education']);
+    await expect(dropdown.locator('option')).not.toContainText(['Study']);
   });
 
   test('T4_SCEN_03: Monorepo Category Restructuring', async ({ page }) => {

@@ -1,5 +1,5 @@
-export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
-export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH';
+export type TaskStatus = 'A_FAIRE' | 'EN_COURS' | 'TERMINE';
+export type TaskPriority = 'BASSE' | 'MOYENNE' | 'HAUTE';
 
 export interface Category {
   id: number;
